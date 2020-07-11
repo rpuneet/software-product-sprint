@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="script.js"></script>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8">
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+    <script src="./js/background_animation.js"></script>
     <div class="content">
-      <div class="header">
-        <div class="container">
-          <nav>
-            <a href="#contact">Contact</a>
-            <a href="#education">Education</a>
-            <a href="#projects">Projects</a>
-            <a href="#experience">Experience</a>
-            <a href="#about">About</a>
-          </nav>
-      </div>
+      <header>
         <div class="container">
           <div class="header-about" id="about">
-            <img class="profile-picture" src="./images/profile_pic.jpg"/>
+            <img class="profile-picture" src="./images/profile_pic.jpg" />
             <div class="description">
               <h1>Puneet Rai</h1>
               <hr>
@@ -30,11 +24,18 @@
               <span>Traveller</span>
             </div>
           </div>
-          
         </div>
-      </div>
-      <div class="container">
-      </div>
+        <div class="container-small">
+          <nav id="navbar">
+            <a id="navbar-item" href="#experience">Experience</a>
+            <a id="navbar-item" href="#education">Education</a>
+            <a id="navbar-item" href="#projects">Projects</a>
+            <a id="navbar-item" href="#contact">Contact</a>
+          </nav>
+        </div>
+      </header>
     </div>
-  </body>
+  </canvas>
+</body>
+
 </html>
