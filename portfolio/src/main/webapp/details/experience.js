@@ -1,6 +1,6 @@
 let experienceDetails = [
     {
-        logoPath: "./images/microsoft.png",
+        logoPath: "./images/microsoft.gif",
         title: "Software Engineer Intern",
         subtitle: "Microsoft",
         duration: "May 2020 - Present",
@@ -8,7 +8,7 @@ let experienceDetails = [
         listItems: []
     },
     {
-        logoPath: "./images/crio.png",
+        logoPath: "./images/crio.gif",
         title: "Software Engineer Intern",
         subtitle: "Crio.Do",
         duration: "Oct 2019 - May 2020",

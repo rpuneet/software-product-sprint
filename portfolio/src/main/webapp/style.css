@@ -27,6 +27,7 @@ body {
   padding: 0;
   height: 100%;
   background-color: var(--color-dark-bg);
+  min-width: 1600px;
 }
 
 /* Background animation canvas */

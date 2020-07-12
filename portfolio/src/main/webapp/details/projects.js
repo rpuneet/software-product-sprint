@@ -22,7 +22,7 @@ let projectDetails = [
         ]
     },
     {
-        logoPath: "./images/no_github.png",
+        logoPath: "./images/no_github.gif",
         link: "#projects",
         title: "Dev Connector",
         subtitle: "CLI App",
