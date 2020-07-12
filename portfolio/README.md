@@ -1,6 +1,10 @@
-This directory is where you'll write all of your code!
+## Personal Portfolio - Puneet
 
-By default it contains a barebones web app. To run a local server, execute this
-command:
+[Website Link](https://prai-sps-summer20.el.r.appspot.com/)
 
-mvn package appengine:run
+To run a local server, execute this command:
+>mvn package appengine:run
+
+## Screenshots
+
+![](./screenshots/screenshot_1.png)
