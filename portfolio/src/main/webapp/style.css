@@ -107,19 +107,20 @@ header {
   display: flexbox;
 }
 
-.navbar-item{
+.navbar-item {
   color:var(--color-text-primary);
   text-decoration: none;
   padding: 7px 25px;
   margin: 20px;
   position: relative;
   font-size: var(--size-text-menu-option);
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
-.navbar-item:hover {
+.navbar-item:hover, .item-selected, .contact-item :hover{
   color: var(--color-text-orange);
-  background-color: var(--color-dark-bg);
+  background-color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .navbar-item i {
@@ -185,4 +186,36 @@ header {
   height: 1px;
   background-color: var(--color-text-orange);
   border: none;
+}
+
+.row-logo-link {
+  height: 100%;
+}
+
+.row-logo-link :hover, #contact i :hover{
+  color: var(--color-text-orange);
+  background-color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.contact {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contact-item {
+  color:var(--color-text-primary);
+  text-decoration: none;
+  position: relative;
+  padding: 5px;
+  margin: 0 5px;
+  border-radius: 5px;
+}
+.contact i {
+  font-size: 25px;
+  display: flex;
+  padding: 5px;
+  margin: 0 2px;
+  border-radius: 5px;
 }

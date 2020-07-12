@@ -16,7 +16,6 @@
 const EXPERIENCE_ID = "experience";
 const EDUCATION_ID = "education";
 const PROJECTS_ID = "projects";
-const CONTACT_ID = "contact";
 
 // Class Names
 const MENU_ITEM = "menu-item";
@@ -30,6 +29,7 @@ const ROW_TITLE = "row-title";
 const ROW_META = "row-meta";
 const ROW_ADDITIONAL = "row-additional";
 const ROW_LIST_ITEMS = "row-list-items";
+const ROW_LOGO_LINK = "row-logo-link";
 
 // Utilities
 
@@ -40,10 +40,12 @@ const ROW_LIST_ITEMS = "row-list-items";
  * @returns {Boolean} if data is not string or empty returns true.
  */
 const isEmptyOrWhiteSpace = (data) => {
-  if (typeof value === 'string') {
-    data === null || !data.trim();
+  if (typeof data === 'string') {
+    return data === null || 
+            data === undefined || 
+            data.trim() === '';
   }
-  return false;
+  return true;
 }
 
 // Creating Menu Items
@@ -57,6 +59,23 @@ const createRowLogo = logoPath => {
 
   sectionRowLogo.appendChild(img);
   return sectionRowLogo
+}
+
+const createRowLogoWithLink = (logoPath, link) => {
+  const rowLogo = createRowLogo(logoPath);
+
+  if (!isEmptyOrWhiteSpace(link)) {
+    const outerDiv = document.createElement("div");
+    outerDiv.className = ROW_LOGO_LINK;
+
+    const rowLogoWithLink = document.createElement("a");
+    rowLogoWithLink.href = link;
+
+    rowLogoWithLink.appendChild(rowLogo);
+    outerDiv.appendChild(rowLogoWithLink)
+    return outerDiv;
+  }
+  return rowLogo;
 }
 
 const createRowTitle = title => {
@@ -99,7 +118,7 @@ const createSectionRow = details => {
 
   if (!isEmptyOrWhiteSpace(details.logoPath)) {
     sectionRow.appendChild(
-      createRowLogo(details.logoPath)
+      createRowLogoWithLink(details.logoPath, details.link)
     );
   }
   
@@ -158,22 +177,38 @@ const removeAllSections = () => {
   document.getElementById(EXPERIENCE_ID).innerHTML = "";
   document.getElementById(EDUCATION_ID).innerHTML = "";
   document.getElementById(PROJECTS_ID).innerHTML = "";
-  document.getElementById(CONTACT_ID).innerHTML = "";
+
+  document.getElementById("navbar-experience").className = "navbar-item";
+  document.getElementById("navbar-education").className = "navbar-item";
+  document.getElementById("navbar-projects").className = "navbar-item";
+
 }
 
 const showExperienceSection = () => {
   removeAllSections();
   const experienceSectionDiv = createMenuSection(experienceDetails);
-  document.getElementById(EXPERIENCE_ID).appendChild(experienceSectionDiv);
+  const experienceSection = document.getElementById(EXPERIENCE_ID);
+  experienceSection.appendChild(experienceSectionDiv);
+  document.getElementById("navbar-experience").className = "navbar-item item-selected";
 }
 
 const showEducationSection = () => {
   removeAllSections();
   const educationSectionDiv = createMenuSection(educationDetails);
-  document.getElementById(EDUCATION_ID).appendChild(educationSectionDiv)
+  document.getElementById(EDUCATION_ID).appendChild(educationSectionDiv);
+  document.getElementById("navbar-education").className = "navbar-item item-selected";
+
+}
+
+const showProjectsSection = () => {
+  removeAllSections();
+  const projectsSectionDiv = createMenuSection(projectDetails);
+  document.getElementById(PROJECTS_ID).appendChild(projectsSectionDiv);
+  document.getElementById("navbar-projects").className = "navbar-item item-selected";
 }
 
 window.onload = () => {
   document.getElementById("navbar-experience").addEventListener("click", showExperienceSection);
   document.getElementById("navbar-education").addEventListener("click", showEducationSection);
+  document.getElementById("navbar-projects").addEventListener("click", showProjectsSection);
 }
