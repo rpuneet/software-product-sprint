@@ -16,6 +16,7 @@
 const EXPERIENCE_ID = "experience";
 const EDUCATION_ID = "education";
 const PROJECTS_ID = "projects";
+const ABOUT_ID = "about";
 
 // Class Names
 const MENU_ITEM = "menu-item";
@@ -177,11 +178,12 @@ const removeAllSections = () => {
   document.getElementById(EXPERIENCE_ID).innerHTML = "";
   document.getElementById(EDUCATION_ID).innerHTML = "";
   document.getElementById(PROJECTS_ID).innerHTML = "";
+  document.getElementById(ABOUT_ID).style.display = "none";
 
   document.getElementById("navbar-experience").className = "navbar-item";
   document.getElementById("navbar-education").className = "navbar-item";
   document.getElementById("navbar-projects").className = "navbar-item";
-
+  document.getElementById("navbar-about").className = "navbar-item";
 }
 
 const showExperienceSection = () => {
@@ -207,8 +209,17 @@ const showProjectsSection = () => {
   document.getElementById("navbar-projects").className = "navbar-item item-selected";
 }
 
+const showAboutSection = () => {
+  removeAllSections();
+  document.getElementById(ABOUT_ID).style.display = "block";
+  document.getElementById("navbar-about").className = "navbar-item item-selected";
+}
+
 window.onload = () => {
   document.getElementById("navbar-experience").addEventListener("click", showExperienceSection);
   document.getElementById("navbar-education").addEventListener("click", showEducationSection);
   document.getElementById("navbar-projects").addEventListener("click", showProjectsSection);
+  document.getElementById("navbar-about").addEventListener("click", showAboutSection);
+
+  showAboutSection();
 }
