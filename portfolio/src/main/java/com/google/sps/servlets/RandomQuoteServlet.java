@@ -1,5 +1,6 @@
 package com.google.sps.servlets;
 
+import com.google.gson.Gson;
 import com.google.sps.dao.IQuoteDao;
 import com.google.sps.dao.QuoteDao;
 import com.google.sps.models.Quote;
@@ -25,8 +26,10 @@ public final class RandomQuoteServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Quote quote = quoteDao.getRandomQuote();
+        Gson gson = new Gson();
 
-        response.setContentType("text/plain");
-        response.getWriter().println(quote.toString());
+        String quoteJson = gson.toJson(quote);
+        response.setContentType("text/json");
+        response.getWriter().println(quoteJson);
     }
 }

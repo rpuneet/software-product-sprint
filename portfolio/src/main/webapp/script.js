@@ -220,17 +220,15 @@ const showAboutSection = () => {
 
 const showRandomQuote = () => {
   fetch('/random-quote')
-      .then(response => response.text())
-      .then(quote => {
-        addQuoteToElement(quote);
-      })
+      .then(response => response.json())
+      .then(addQuoteToElement)
       .catch(console.log)
       .catch(console.log);
 }
 
 const addQuoteToElement = quote => {
   const quoteElement = document.getElementById(QUOTE_ID);
-  quoteElement.innerText = quote
+  quoteElement.innerText = [quote.quoteText, quote.author].join(' - ');
 }
 
 window.onload = () => {
