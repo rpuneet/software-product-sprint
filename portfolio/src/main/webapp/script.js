@@ -241,7 +241,6 @@ const handleSubmitComment = event => {
     return res.json()
   }).then(body => {
     if (body.valid) {
-      console.log("OK")
       showComments()
     } else {
       console.log(body);

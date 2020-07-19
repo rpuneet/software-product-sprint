@@ -21,6 +21,25 @@ public final class RandomQuoteServlet extends HttpServlet {
     @Override
     public void init() {
         quoteDao = new QuoteDao();
+
+        quoteDao.addQuote(new Quote(
+                "Without requirements or design, programming is the art of adding bugs to an empty text file.",
+                "Louis Srygley"));
+        quoteDao.addQuote(new Quote(
+                "I think Microsoft named .Net so it wouldn't show up in a Unix directory listing.",
+                "Oktal"));
+        quoteDao.addQuote(new Quote(
+                "If builders built buildings the way programmers wrote programs, then the first woodpecker that came along would destroy civilization.",
+                "Gerald Weinberg"));
+        quoteDao.addQuote(new Quote(
+                "There are two ways to write error-free programs; only the third one works.",
+                "Alan J. Perlis"));
+        quoteDao.addQuote(new Quote(
+                "A good programmer is someone who always looks both ways before crossing a one-way street.",
+                "Doug Linder"));
+        quoteDao.addQuote(new Quote(
+                "Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.",
+                "Martin Golding"));
     }
 
     @Override
@@ -29,7 +48,7 @@ public final class RandomQuoteServlet extends HttpServlet {
         Gson gson = new Gson();
 
         String quoteJson = gson.toJson(quote);
-        response.setContentType("text/json");
+        response.setContentType("application/json");
         response.getWriter().println(quoteJson);
     }
 }
