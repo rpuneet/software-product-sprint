@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Returns a random quote from {@link IQuoteDao} in the response as "text/plain"
+ * Returns a random quote from {@link IQuoteDao} in the response as "application/json" content
  */
 @WebServlet("/random-quote")
 public final class RandomQuoteServlet extends HttpServlet {
