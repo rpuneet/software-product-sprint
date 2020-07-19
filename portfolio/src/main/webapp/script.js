@@ -34,7 +34,8 @@ const ROW_LOGO_LINK = "row-logo-link";
 
 // ID
 const QUOTE_ID = "quote"
-
+const COMMENT_FORM_ID = 'post-comment';
+const COMMENT_ID = 'comments'
 // Utilities
 
 /**
@@ -222,7 +223,6 @@ const showRandomQuote = () => {
   fetch('/random-quote')
       .then(response => response.json())
       .then(addQuoteToElement)
-      .catch(console.log)
       .catch(console.log);
 }
 
@@ -231,12 +231,55 @@ const addQuoteToElement = quote => {
   quoteElement.innerText = [quote.quoteText, quote.author].join(' - ');
 }
 
+const handleSubmitComment = event => {
+  event.preventDefault();
+
+  fetch(event.target.action, {
+    method: 'POST',
+    body: new URLSearchParams(new FormData(event.target))
+  }).then(res => {
+    return res.json()
+  }).then(body => {
+    if (body.valid) {
+      console.log("OK")
+      showComments()
+    } else {
+      console.log(body);
+    }
+  }).catch(console.log)
+}
+
+const createComment = comment => {
+  const commentElement = document.createElement("div")
+  const commentText = document.createElement("p")
+  commentText.innerText = comment.commentText;
+  commentElement.appendChild(commentText);
+  return commentElement
+}
+
+const showComments = () => {
+  const commentElement = document.getElementById(COMMENT_ID);
+
+  fetch("/comments")
+      .then(res => res.json())
+      .then(comments => {
+        commentElement.innerHTML = ""
+        comments.map(comment => {
+          commentElement.appendChild(createComment(comment))
+        })
+      })
+}
+
+
 window.onload = () => {
   document.getElementById("navbar-experience").addEventListener("click", showExperienceSection);
   document.getElementById("navbar-education").addEventListener("click", showEducationSection);
   document.getElementById("navbar-projects").addEventListener("click", showProjectsSection);
   document.getElementById("navbar-about").addEventListener("click", showAboutSection);
 
+  document.forms[COMMENT_FORM_ID].addEventListener('submit', handleSubmitComment)
+
   showAboutSection();
   showRandomQuote();
+  showComments()
 }
