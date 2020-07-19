@@ -1,5 +1,6 @@
 package com.google.sps.dao;
 
+import com.google.appengine.api.datastore.*;
 import com.google.sps.models.Comment;
 import com.google.sps.models.ValidationResponse;
 
@@ -7,24 +8,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentDao implements ICommentDao{
-    List<Comment> commentList;
+    DatastoreService datastoreService;
 
     public CommentDao() {
-        commentList = new ArrayList<>();
+        datastoreService = DatastoreServiceFactory.getDatastoreService();
     }
-
 
     @Override
     public List<Comment> getAllComments() {
+        Query query = new Query(Comment.Keys.KIND)
+                .addSort(Comment.Keys.CREATED_AT, Query.SortDirection.DESCENDING);
+
+        PreparedQuery results = datastoreService.prepare(query);
+
+        List<Comment> commentList = new ArrayList<>();
+
+        for (Entity entity : results.asIterable()) {
+            long id = entity.getKey().getId();
+            String commentText = (String) entity.getProperty(Comment.Keys.COMMENT_TEXT);
+            long createdAt = (long) entity.getProperty(Comment.Keys.CREATED_AT);
+
+            Comment comment = new Comment(commentText, createdAt, id);
+            commentList.add(comment);
+        }
+
         return commentList;
     }
 
     @Override
-    public Comment getCommentById(int id) {
-        if (id < 0 || id >= commentList.size()) {
+    public Comment getCommentById(long id) {
+        Key commentEntityKey = KeyFactory.createKey(Comment.Keys.KIND, id);
+        try {
+            Entity commentEntity = datastoreService.get(commentEntityKey);
+
+            String commentText = (String) commentEntity.getProperty(Comment.Keys.COMMENT_TEXT);
+            long createdAt = (long) commentEntity.getProperty(Comment.Keys.CREATED_AT);
+
+            return new Comment(commentText, createdAt, id);
+        } catch (EntityNotFoundException entityNotFoundException) {
             return null;
         }
-        return commentList.get(id);
     }
 
     @Override
@@ -33,8 +56,14 @@ public class CommentDao implements ICommentDao{
         if (!validationResponse.isValid()) {
             return validationResponse;
         }
-        comment.setId(commentList.size());
-        commentList.add(comment);
+
+        Entity commentEntity = new Entity(Comment.Keys.KIND);
+
+        commentEntity.setProperty(Comment.Keys.COMMENT_TEXT, comment.getCommentText());
+        commentEntity.setProperty(Comment.Keys.CREATED_AT, comment.getCreatedAt());
+
+        datastoreService.put(commentEntity);
+
         return validationResponse;
     }
 }

@@ -1,22 +1,28 @@
 package com.google.sps.models;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Comment {
     private String commentText;
-    private LocalDateTime lastModified;
-    private int id;
+    private long createdAt;
+    private long id;
+
+    public Comment(String commentText, long createdAt, long id) {
+        this.commentText = commentText;
+        this.createdAt = createdAt;
+        this.id = id;
+    }
 
     public Comment(String commentText) {
         this.commentText = commentText;
-        this.lastModified = LocalDateTime.now();
+        this.createdAt = System.currentTimeMillis();
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -28,15 +34,15 @@ public class Comment {
         this.commentText = commentText;
     }
 
-    public LocalDateTime getLastModified() {
-        return lastModified;
+    public long getCreatedAt() {
+        return createdAt;
     }
 
-    public void setLastModified(LocalDateTime lastModified) {
-        this.lastModified = lastModified;
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public static class Validator {
+    public static final class Validator {
         private static boolean isEmptyOrWhiteSpace(String text) {
             return text == null || text.trim().isEmpty();
         }
@@ -49,5 +55,13 @@ public class Comment {
             }
             return validationResponse;
         }
+    }
+
+    public static final class Keys {
+        public static final String KIND = "Comment";
+        public static final String COMMENT_TEXT = "commentText";
+        public static final String CREATED_AT = "createdAt";
+        public static final String ID = "id";
+
     }
 }

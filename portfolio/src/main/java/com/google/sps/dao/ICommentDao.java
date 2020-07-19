@@ -8,7 +8,7 @@ import java.util.List;
 public interface ICommentDao {
     List<Comment> getAllComments();
 
-    Comment getCommentById(int id);
+    Comment getCommentById(long id);
 
     ValidationResponse addComment(Comment comment);
 }
