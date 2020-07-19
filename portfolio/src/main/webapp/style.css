@@ -12,6 +12,7 @@
   --size-text-menu-option: 20px;
   --size-text-menu-option-selected: 25px;
   --size-text-title: 25px;
+  --size-text-quote: 22px;
   --size-text-meta: 20px;
   --size-text-additional: 20px;
   --size-text-list-items: 20px;
@@ -219,4 +220,11 @@ header {
   padding: 5px;
   margin: 0 2px;
   border-radius: 5px;
+}
+
+/* Menu Sections */
+#quote {
+  text-align: center;
+  font-size: var(--size-text-quote);
+  color: var(--color-text-primary);
 }

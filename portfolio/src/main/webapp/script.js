@@ -32,6 +32,9 @@ const ROW_ADDITIONAL = "row-additional";
 const ROW_LIST_ITEMS = "row-list-items";
 const ROW_LOGO_LINK = "row-logo-link";
 
+// ID
+const QUOTE_ID = "quote"
+
 // Utilities
 
 /**
@@ -215,6 +218,21 @@ const showAboutSection = () => {
   document.getElementById("navbar-about").className = "navbar-item item-selected";
 }
 
+const showRandomQuote = () => {
+  fetch('/random-quote')
+      .then(response => response.text())
+      .then(quote => {
+        addQuoteToElement(quote);
+      })
+      .catch(console.log)
+      .catch(console.log);
+}
+
+const addQuoteToElement = quote => {
+  const quoteElement = document.getElementById(QUOTE_ID);
+  quoteElement.innerText = quote
+}
+
 window.onload = () => {
   document.getElementById("navbar-experience").addEventListener("click", showExperienceSection);
   document.getElementById("navbar-education").addEventListener("click", showEducationSection);
@@ -222,4 +240,5 @@ window.onload = () => {
   document.getElementById("navbar-about").addEventListener("click", showAboutSection);
 
   showAboutSection();
+  showRandomQuote();
 }
