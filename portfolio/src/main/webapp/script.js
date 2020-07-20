@@ -34,9 +34,11 @@ const ROW_LOGO_LINK = "row-logo-link";
 
 // ID
 const QUOTE_ID = "quote"
+const COMMENT_FORM_ID = 'post-comment';
+const COMMENTS_ID = 'comments'
+const COMMENT_ID = 'comment'
 
 // Utilities
-
 /**
  * Checks if the given string is empty of whitespace.
  * 
@@ -45,8 +47,8 @@ const QUOTE_ID = "quote"
  */
 const isEmptyOrWhiteSpace = (data) => {
   if (typeof data === 'string') {
-    return data === null || 
-            data === undefined || 
+    return data === null ||
+            data === undefined ||
             data.trim() === '';
   }
   return true;
@@ -222,7 +224,6 @@ const showRandomQuote = () => {
   fetch('/random-quote')
       .then(response => response.json())
       .then(addQuoteToElement)
-      .catch(console.log)
       .catch(console.log);
 }
 
@@ -231,12 +232,58 @@ const addQuoteToElement = quote => {
   quoteElement.innerText = [quote.quoteText, quote.author].join(' - ');
 }
 
+const handleSubmitComment = event => {
+  event.preventDefault();
+  document.getElementById("submit").disabled = true
+  fetch(event.target.action, {
+    method: 'POST',
+    body: new URLSearchParams(new FormData(event.target))
+  }).then(res => {
+    document.getElementById(COMMENT_FORM_ID).reset();
+    return res.json()
+  }).then(body => {
+    if (body.valid) {
+      showComments()
+    } else {
+      console.log(body);
+    }
+    document.getElementById("submit").disabled = false
+  }).catch(console.log)
+}
+
+const createComment = comment => {
+  const commentElement = document.createElement("div")
+  commentElement.id = COMMENT_ID
+  const commentText = document.createElement("p")
+  commentText.innerText = comment.commentText;
+  commentElement.appendChild(commentText);
+  commentElement.appendChild(document.createElement("hr"))
+  return commentElement
+}
+
+const showComments = () => {
+  const commentElement = document.getElementById(COMMENTS_ID);
+
+  fetch("/comments")
+      .then(res => res.json())
+      .then(comments => {
+        commentElement.innerHTML = ""
+        comments.map(comment => {
+          commentElement.appendChild(createComment(comment))
+        })
+      })
+}
+
+
 window.onload = () => {
   document.getElementById("navbar-experience").addEventListener("click", showExperienceSection);
   document.getElementById("navbar-education").addEventListener("click", showEducationSection);
   document.getElementById("navbar-projects").addEventListener("click", showProjectsSection);
   document.getElementById("navbar-about").addEventListener("click", showAboutSection);
 
+  document.forms[COMMENT_FORM_ID].addEventListener('submit', handleSubmitComment)
+
   showAboutSection();
   showRandomQuote();
+  showComments()
 }

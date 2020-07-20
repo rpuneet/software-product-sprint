@@ -89,6 +89,19 @@
       <div class="section" id="experience"></div>
       <div class="section" id="projects"></div>
     </div>
+    <div class="section" id="comment">
+      <div class="card">
+        <h2>Comments</h2>
+        <form action="/comments" id="post-comment" method="POST">
+          <textarea type="text" name="commentText" placeholder="Leave a comment" rows="2"></textarea>
+          <div id="submit-button">
+            <input type="submit" id="submit" value="Post"/>
+          </div>
+        </form>
+        <hr />
+        <div id="comments"></div>
+      </div>
+    </div>
   </div>
   </canvas>
 </body>

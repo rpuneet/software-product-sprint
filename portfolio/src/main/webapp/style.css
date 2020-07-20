@@ -21,6 +21,7 @@
 
 html{
   height: 100%;
+  font-family: Roboto;
 }
 
 body {
@@ -227,4 +228,43 @@ header {
   text-align: center;
   font-size: var(--size-text-quote);
   color: var(--color-text-primary);
+}
+
+#comment hr {
+  background-color: var(--color-text-secondary);
+}
+
+#post-comment {
+  display: flex;
+}
+
+#post-comment textarea {
+  resize: none;
+  width: 90%;
+  background: var(--color-dark-header-bg);
+  font-size: var(--size-text-meta);
+  color: var(--color-text-primary);
+  border-radius: 10px;
+}
+
+#post-comment #submit-button {
+  width: 10%;
+}
+
+#post-comment #submit {
+  margin-left: 3px;
+  width: 100%;
+  height: 59px;
+  font-size: var(--size-text-menu-option);
+  text-align: center;
+  background: var(--color-dark-card-bg);
+  border: 2px solid var(--color-text-secondary);
+  border-radius: 5px;
+  color: var(--color-text-primary);
+}
+
+#post-comment #submit-button :hover {
+  background: black;
+  color: var(--color-text-orange);
+  cursor: pointer;
 }
