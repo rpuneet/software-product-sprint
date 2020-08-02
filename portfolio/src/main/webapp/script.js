@@ -270,10 +270,34 @@ const showComments = () => {
         commentElement.innerHTML = ""
         comments.map(comment => {
           commentElement.appendChild(createComment(comment))
+          console.log(comment)
         })
       })
 }
 
+const fetchUserDetails = (callbackOnLoggedIn, callbackOnLoggedOut) => {
+  fetch('login-status')
+      .then(res => res.json())
+      .then(loginDetails => {
+        if ("true".localeCompare(loginDetails.loggedIn) === 0) {
+          callbackOnLoggedIn(loginDetails);
+        } else {
+          callbackOnLoggedOut(loginDetails);
+        }
+      })
+}
+
+const createLoginButton = (loginUrl) => {
+  const loginATag = document.getElementById("authentication-url");
+  loginATag.href = loginUrl;
+  loginATag.innerText = "Login"
+}
+
+const createLogoutButton = (logoutUrl) => {
+  const loginATag = document.getElementById("authentication-url");
+  loginATag.href = logoutUrl;
+  loginATag.innerText = "Logout"
+}
 
 window.onload = () => {
   document.getElementById("navbar-experience").addEventListener("click", showExperienceSection);
@@ -285,5 +309,16 @@ window.onload = () => {
 
   showAboutSection();
   showRandomQuote();
-  showComments()
+  showComments();
+
+  fetchUserDetails(
+      details => {
+        createLogoutButton(details.url);
+        document.getElementById("submit").disabled = false;
+      },
+      details => {
+        createLoginButton(details.url)
+        document.getElementById("submit").disabled = true;
+      });
+
 }
