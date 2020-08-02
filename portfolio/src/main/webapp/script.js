@@ -235,28 +235,49 @@ const addQuoteToElement = quote => {
 const handleSubmitComment = event => {
   event.preventDefault();
   document.getElementById("submit").disabled = true
-  fetch(event.target.action, {
-    method: 'POST',
-    body: new URLSearchParams(new FormData(event.target))
-  }).then(res => {
-    document.getElementById(COMMENT_FORM_ID).reset();
-    return res.json()
-  }).then(body => {
-    if (body.valid) {
-      showComments()
-    } else {
-      console.log(body);
-    }
-    document.getElementById("submit").disabled = false
-  }).catch(console.log)
+  fetchUserDetails(
+      details => {
+        const urlSearchParams = new URLSearchParams(new FormData(event.target));
+        urlSearchParams.set("createdBy", details.email)
+
+        fetch(event.target.action, {
+          method: 'POST',
+          body: urlSearchParams
+        }).then(res => {
+          document.getElementById(COMMENT_FORM_ID).reset();
+          return res.json()
+        }).then(body => {
+          if (body.valid) {
+            showComments()
+          } else {
+            console.log(body);
+          }
+          document.getElementById("submit").disabled = false
+        }).catch(console.log)
+      },
+      details => {
+
+      }
+  )
+
 }
 
 const createComment = comment => {
   const commentElement = document.createElement("div")
   commentElement.id = COMMENT_ID
+
   const commentText = document.createElement("p")
   commentText.innerText = comment.commentText;
+  commentText.id = "comment-text"
   commentElement.appendChild(commentText);
+
+  if (!isEmptyOrWhiteSpace(comment.createdBy)) {
+    const createdBy = document.createElement("span");
+    createdBy.innerText = comment.createdBy;
+    createdBy.id = "created-by"
+    commentElement.appendChild(createdBy);
+  }
+
   commentElement.appendChild(document.createElement("hr"))
   return commentElement
 }
@@ -270,7 +291,6 @@ const showComments = () => {
         commentElement.innerHTML = ""
         comments.map(comment => {
           commentElement.appendChild(createComment(comment))
-          console.log(comment)
         })
       })
 }

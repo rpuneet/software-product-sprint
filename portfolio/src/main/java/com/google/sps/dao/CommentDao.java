@@ -27,8 +27,8 @@ public class CommentDao implements ICommentDao{
             long id = entity.getKey().getId();
             String commentText = (String) entity.getProperty(Comment.Keys.COMMENT_TEXT);
             long createdAt = (long) entity.getProperty(Comment.Keys.CREATED_AT);
-
-            Comment comment = new Comment(commentText, createdAt, id);
+            String createdBy = (String) entity.getProperty(Comment.Keys.CREATED_BY);
+            Comment comment = new Comment(commentText, createdAt, id, createdBy);
             commentList.add(comment);
         }
 
@@ -43,8 +43,9 @@ public class CommentDao implements ICommentDao{
 
             String commentText = (String) commentEntity.getProperty(Comment.Keys.COMMENT_TEXT);
             long createdAt = (long) commentEntity.getProperty(Comment.Keys.CREATED_AT);
+            String createdBy = (String) commentEntity.getProperty(Comment.Keys.CREATED_BY);
 
-            return new Comment(commentText, createdAt, id);
+            return new Comment(commentText, createdAt, id, createdBy);
         } catch (EntityNotFoundException entityNotFoundException) {
             return null;
         }
@@ -61,6 +62,7 @@ public class CommentDao implements ICommentDao{
 
         commentEntity.setProperty(Comment.Keys.COMMENT_TEXT, comment.getCommentText());
         commentEntity.setProperty(Comment.Keys.CREATED_AT, comment.getCreatedAt());
+        commentEntity.setProperty(Comment.Keys.CREATED_BY, comment.getCreatedBy());
 
         datastoreService.put(commentEntity);
 
