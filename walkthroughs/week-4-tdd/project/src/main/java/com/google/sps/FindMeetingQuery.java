@@ -16,13 +16,20 @@ package com.google.sps;
 
 import java.util.*;
 
+
+/**
+ * Consider - N : Total number of events
+ *  *         M : Total number of attendees in all the events
+ * Time Complexity: O(N * lg(N) + M)
+ * Space Complexity: O(N)
+ */
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     HashSet<String> attendees = new HashSet<>(request.getAttendees());
-    ArrayList<TimeRange> timeRangesNotAvailable = getTimeRangesNotAvailable(events, attendees);
+    ArrayList<TimeRange> unavailableTimeSlots = getTimeRangesNotAvailable(events, attendees);
     ArrayList<TimeRange> availableTimeSlots = new ArrayList<>();
 
-    if (timeRangesNotAvailable.isEmpty()) {
+    if (unavailableTimeSlots.isEmpty()) {
       checkTimeRangeAndAddToAvailable(TimeRange.START_OF_DAY,
               TimeRange.END_OF_DAY + 1,
               request.getDuration(),
@@ -30,12 +37,12 @@ public final class FindMeetingQuery {
       return availableTimeSlots;
     }
 
-    timeRangesNotAvailable.sort(TimeRange.ORDER_BY_START);
+    unavailableTimeSlots.sort(TimeRange.ORDER_BY_START);
 
     TreeSet<Integer> endTimeOfEvents = new TreeSet<>();
     int currentStart = TimeRange.START_OF_DAY;
 
-    for (TimeRange timeRange: timeRangesNotAvailable) {
+    for (TimeRange timeRange: unavailableTimeSlots) {
       while (!endTimeOfEvents.isEmpty() && endTimeOfEvents.first() < timeRange.start()) {
         currentStart = endTimeOfEvents.first();
         endTimeOfEvents.remove(endTimeOfEvents.first());
@@ -63,16 +70,17 @@ public final class FindMeetingQuery {
   }
 
   private ArrayList<TimeRange> getTimeRangesNotAvailable(Collection<Event> events, Collection<String> attendees) {
-    ArrayList<TimeRange> timeRangesNotAvailable = new ArrayList<>();
+    ArrayList<TimeRange> unavailableTimeSlots = new ArrayList<>();
 
     for (Event event : events) {
       for (String attendee: event.getAttendees()) {
         if (attendees.contains(attendee)) {
-          timeRangesNotAvailable.add(event.getWhen());
+          unavailableTimeSlots.add(event.getWhen());
+          break;
         }
       }
     }
-    return timeRangesNotAvailable;
+    return unavailableTimeSlots;
   }
 
   private void checkTimeRangeAndAddToAvailable(int start, int end, long durationRequested, Collection<TimeRange> availableTimeSlots) {
