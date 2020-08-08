@@ -74,7 +74,7 @@ public class Comment {
     }
 
     public static final class Keys {
-        public static final String KIND = "Comment";
+        public static final String KIND = "comment";
         public static final String COMMENT_TEXT = "commentText";
         public static final String CREATED_AT = "createdAt";
         public static final String CREATED_BY = "createdBy";
