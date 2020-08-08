@@ -17,7 +17,6 @@ import java.util.List;
 @WebServlet("/comments")
 public class CommentServlet extends HttpServlet {
     private ICommentDao commentDao;
-    private static final String COMMENT_TEXT_PARAM = "commentText";
     private final Gson gson = new Gson();
 
     @Override
@@ -38,9 +37,10 @@ public class CommentServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String commentText = getParameter(request, COMMENT_TEXT_PARAM, "");
+        String commentText = getParameter(request, Comment.Keys.COMMENT_TEXT, "");
+        String createdBy = getParameter(request, Comment.Keys.CREATED_BY, "");
 
-        Comment comment = new Comment(commentText);
+        Comment comment = new Comment(commentText, createdBy);
         ValidationResponse validationResponse = commentDao.addComment(comment);
         String validationResponseJson = gson.toJson(validationResponse);
 
